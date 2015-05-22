@@ -3,6 +3,10 @@ public class CsvWriter {
 	public CsvWriter() {
 	}
 
+	/**
+	 * Absorb two methods into loops
+	 * and convert old method ('writeQuoted') into new ('escape') 
+	 */
 	public void write(String[][] lines) {
 		for (int lineNumber = 0; lineNumber < lines.length; lineNumber++) {
 			for (int wordNumber = 0; wordNumber < lines[lineNumber].length; wordNumber++) {

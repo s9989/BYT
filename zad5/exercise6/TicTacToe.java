@@ -19,13 +19,12 @@ public class TicTacToe {
 					return i;
 			}
 		}
-
-		for (int i = 0; i < 9; i++) {
-			if (board.charAt(i) == '-')
-				return i;
-		}
-
-		return -1;
+		
+		/**
+		 * Couldn't find 'bad smells' beside manual loop
+		 * (changed to String method)
+		 */
+		return board.indexOf("-");
 	}
 
 	public TicTacToe makeMove(int i, char player) {

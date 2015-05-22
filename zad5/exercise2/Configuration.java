@@ -1,4 +1,5 @@
 package exercise2;
+
 import java.util.*;
 
 public class Configuration {
@@ -9,43 +10,32 @@ public class Configuration {
 	public int departure;
 
 	public void load(Properties props) throws ConfigurationException {
-		String valueString;
-		int value;
-
-		valueString = props.getProperty("interval");
+		
+		interval = this.valueOfProperty(props, "interval");
+		duration = this.valueOfProperty(props, "duration", interval);
+		departure = this.valueOfProperty(props, "departure", interval);
+	}
+	
+	/**
+	 * Extracted two methods from long code
+	 */
+	private int valueOfProperty(Properties property, String name) throws ConfigurationException {
+		String valueString = property.getProperty(name);
 		if (valueString == null) {
-			throw new ConfigurationException("monitor interval");
+			throw new ConfigurationException(name + " offset");
 		}
-		value = Integer.parseInt(valueString);
+		int value = Integer.parseInt(valueString);
 		if (value <= 0) {
-			throw new ConfigurationException("monitor interval > 0");
+			throw new ConfigurationException(name + " > 0");
 		}
-		interval = value;
-
-		valueString = props.getProperty("duration");
-		if (valueString == null) {
-			throw new ConfigurationException("duration");
-		}
-		value = Integer.parseInt(valueString);
-		if (value <= 0) {
-			throw new ConfigurationException("duration > 0");
-		}
+		return value;
+	}
+	
+	private int valueOfProperty(Properties property, String name, int interval) throws ConfigurationException {
+		int value = this.valueOfProperty(property, name);
 		if ((value % interval) != 0) {
-			throw new ConfigurationException("duration % interval");
+			throw new ConfigurationException(name + " % interval");
 		}
-		duration = value;
-
-		valueString = props.getProperty("departure");
-		if (valueString == null) {
-			throw new ConfigurationException("departure offset");
-		}
-		value = Integer.parseInt(valueString);
-		if (value <= 0) {
-			throw new ConfigurationException("departure > 0");
-		}
-		if ((value % interval) != 0) {
-			throw new ConfigurationException("departure % interval");
-		}
-		departure = value;
+		return value;
 	}
 }

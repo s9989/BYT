@@ -27,18 +27,19 @@ public class Expression {
 		if (op == 'c') return constant;
 		
 		// calculate before entering switch
-		int l = left.evaluate();
-		int r = right.evaluate();
+		// and change names from 'l' and 'r'
+		int leftValue = left.evaluate();
+		int rightValue = right.evaluate();
 		
 		switch (op) {
 		case '+':
-			return l + r;
+			return leftValue + rightValue;
 		case '-':
-			return l - r;
+			return leftValue - rightValue;
 		case '*':
-			return l * r;
+			return leftValue * rightValue;
 		case '/':
-			return l / r;
+			return leftValue / rightValue;
 		default:
 			throw new IllegalStateException();
 		}

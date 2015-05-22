@@ -1,5 +1,8 @@
 package exercise4;
 
+/**
+ * Created abstract class with common method 'formatString'; 
+ */
 public abstract class Client {
 	
 	public static String formatString(String format, Person person) {
