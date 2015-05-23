@@ -20,7 +20,7 @@ public class Quadrilateral {
 		Vector2D v2 = l2.getVector();
 		Vector2D v3 = l3.getVector();
 		Vector2D v4 = l4.getVector();
-		
+
 		return (v1.isOrthogonalTo(v2) &&
 				v2.isOrthogonalTo(v3) &&
 				v3.isOrthogonalTo(v4) &&
@@ -29,7 +29,7 @@ public class Quadrilateral {
 	
 	public Boolean isSquare() {
 		return (isRectangle() &&
-				l1.isSameLengthAs(l3));
+				l1.isSameLengthAs(l2));
 	}
 
 }

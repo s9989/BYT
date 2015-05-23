@@ -14,6 +14,7 @@ public class MoneyTest {
 		SEK = new Currency("SEK", 0.15);
 		DKK = new Currency("DKK", 0.20);
 		EUR = new Currency("EUR", 1.5);
+		
 		SEK100 = new Money(10000, SEK);
 		EUR10 = new Money(1000, EUR);
 		SEK200 = new Money(20000, SEK);
@@ -25,7 +26,13 @@ public class MoneyTest {
 
 	@Test
 	public void testGetAmount() {
-		fail("Write test case here");
+	  String message = "Ammounts should be equal";
+	  assertEquals(message, 10000, SEK100);
+	  assertEquals(message, 1000, EUR10);
+	  assertEquals(message, 20000, SEK200);
+	  assertEquals(message, 2000, EUR20);
+	  assertEquals(message, 0, SEK0);
+	  assertEquals(message, 0, EUR0);
 	}
 
 	@Test
