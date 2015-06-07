@@ -33,9 +33,10 @@ public class BankTest {
 	}
 
 	@Test
-	public void testOpenAccount() throws AccountExistsException { // removed AccountDoesNotExistException 
+	public void testOpenAccount() throws AccountExistsException, AccountDoesNotExistException { 
 		SweBank.openAccount("John");
 		SweBank.openAccount("Anna");
+		SweBank.deposit("John", new Money(1000, DKK));
 	}
 
 	@Test(expected = AccountExistsException.class)
