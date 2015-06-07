@@ -41,10 +41,8 @@ public class Bank {
 	public void openAccount(String accountid) throws AccountExistsException {
 		if (accountlist.containsKey(accountid)) {
 			throw new AccountExistsException();
-		}
-		else {
-			accountlist.get(accountid);
-		}
+		} // removed else statement
+		accountlist.put(accountid, new Account(accountid, this.getCurrency())); // changed to put (from get)
 	}
 	
 	/**
@@ -54,13 +52,11 @@ public class Bank {
 	 * @throws AccountDoesNotExistException If the account does not exist
 	 */
 	public void deposit(String accountid, Money money) throws AccountDoesNotExistException {
-		if (accountlist.containsKey(accountid)) {
+		if (!accountlist.containsKey(accountid)) { // added ! at the beginning
 			throw new AccountDoesNotExistException();
-		}
-		else {
-			Account account = accountlist.get(accountid);
-			account.deposit(money);
-		}
+		} // removed else statement
+		Account account = accountlist.get(accountid);
+		account.deposit(money);
 	}
 	
 	/**
@@ -72,11 +68,10 @@ public class Bank {
 	public void withdraw(String accountid, Money money) throws AccountDoesNotExistException {
 		if (!accountlist.containsKey(accountid)) {
 			throw new AccountDoesNotExistException();
-		}
-		else {
-			Account account = accountlist.get(accountid);
-			account.deposit(money);
-		}
+		} // removed else statement
+
+		Account account = accountlist.get(accountid);
+		account.withdraw(money); // changed to withdraw (from deposit) 
 	}
 	
 	/**
@@ -88,10 +83,9 @@ public class Bank {
 	public Integer getBalance(String accountid) throws AccountDoesNotExistException {
 		if (!accountlist.containsKey(accountid)) {
 			throw new AccountDoesNotExistException();
-		}
-		else {
-			return accountlist.get(accountid).getBalance().getAmount();
-		}
+		} // removed else statement
+		
+		return accountlist.get(accountid).getBalance().getAmount();
 	}
 
 	/**
@@ -103,13 +97,21 @@ public class Bank {
 	 * @throws AccountDoesNotExistException If one of the accounts do not exist
 	 */
 	public void transfer(String fromaccount, Bank tobank, String toaccount, Money amount) throws AccountDoesNotExistException {
-		if (!accountlist.containsKey(fromaccount) || !tobank.accountlist.containsKey(toaccount)) {
-			throw new AccountDoesNotExistException();
+//		if (!accountlist.containsKey(fromaccount) || !tobank.accountlist.containsKey(toaccount)) {
+//			throw new AccountDoesNotExistException();
+//		}
+//		else {
+//			accountlist.get(fromaccount).withdraw(amount);
+//			tobank.accountlist.get(toaccount).deposit(amount);
+//		}		
+		this.withdraw(fromaccount, amount);
+		try {
+			tobank.deposit(toaccount, amount);
+		} catch (AccountDoesNotExistException e) {
+			this.deposit(fromaccount, amount); // return taken money
+			throw e;
 		}
-		else {
-			accountlist.get(fromaccount).withdraw(amount);
-			tobank.accountlist.get(toaccount).deposit(amount);
-		}		
+		
 	}
 
 	/**
@@ -120,7 +122,7 @@ public class Bank {
 	 * @throws AccountDoesNotExistException If one of the accounts do not exist
 	 */
 	public void transfer(String fromaccount, String toaccount, Money amount) throws AccountDoesNotExistException {
-		transfer(fromaccount, this, fromaccount, amount);
+		transfer(fromaccount, this, toaccount, amount); // changed third parameter to toaccount (from fromaccount)
 	}
 
 	/**
@@ -132,8 +134,12 @@ public class Bank {
 	 * @param amount Amount of Money to transfer each payment
 	 * @param tobank Bank where receiving account resides
 	 * @param toaccount Id of receiving account
+	 * @throws AccountDoesNotExistException If one of the accounts do not exist
 	 */
-	public void addTimedPayment(String accountid, String payid, Integer interval, Integer next, Money amount, Bank tobank, String toaccount) {
+	public void addTimedPayment(String accountid, String payid, Integer interval, Integer next, Money amount, Bank tobank, String toaccount) throws AccountDoesNotExistException { // added throws
+		if (!accountlist.containsKey(accountid)) {
+			throw new AccountDoesNotExistException();
+		}
 		Account account = accountlist.get(accountid);
 		account.addTimedPayment(payid, interval, next, amount, tobank, toaccount);
 	}
@@ -142,8 +148,12 @@ public class Bank {
 	 * Remove a timed payment
 	 * @param accountid Id of account to remove timed payment from
 	 * @param id Id of timed payment
+	 * @throws AccountDoesNotExistException If one of the accounts do not exist
 	 */
-	public void removeTimedPayment(String accountid, String id) {
+	public void removeTimedPayment(String accountid, String id) throws AccountDoesNotExistException { // added throws
+		if (!accountlist.containsKey(accountid)) {
+			throw new AccountDoesNotExistException();
+		}
 		Account account = accountlist.get(accountid);
 		account.removeTimedPayment(id);
 	}

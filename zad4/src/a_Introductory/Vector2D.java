@@ -15,10 +15,10 @@ public class Vector2D {
 	}
 	
 	public int dotProduct(Vector2D v) {
-		return (x * v.x) + (y * v.y);
+		return (x * v.x) + (y * v.y); // changed to v.y (from v.x)
 	}
 	
 	public boolean isOrthogonalTo(Vector2D v) {
-		return (dotProduct(v) == 0);
+		return (dotProduct(v) == 0); // changed to 0 (from 1)
 	}
 }

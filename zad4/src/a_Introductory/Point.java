@@ -1,7 +1,7 @@
 package a_Introductory;
 
 public class Point {
-	public int x, y;
+	public int x, y; // changed to int
 	
 	Point(int x, int y) {
 		this.x = x;

@@ -67,7 +67,7 @@ public class Money implements Comparable<Object> {
 		int universal = this.universalValue();
 		int other_universal = other.universalValue();
 		int sum = universal + other_universal;
-		int amount = this.currency.valueInThisCurrency(sum, this.currency);
+		int amount = (int) ( (double) sum / this.currency.getRate() );
 		return new Money(amount, this.currency);
 	}
 
@@ -78,11 +78,11 @@ public class Money implements Comparable<Object> {
 	 * (Again, remember converting the value of the other Money to this Currency)
 	 */
 	public Money sub(Money other) {
-	  int universal = this.universalValue();
-    int other_universal = other.universalValue();
-    int sum = universal - other_universal;
-    int amount = this.currency.valueInThisCurrency(sum, this.currency);
-    return new Money(amount, this.currency);
+		int universal = this.universalValue();
+		int other_universal = other.universalValue();
+		int sum = universal - other_universal;
+		int amount = (int) ( (double) sum / this.currency.getRate() );
+		return new Money(amount, this.currency);
 	}
 	
 	/**
@@ -110,6 +110,15 @@ public class Money implements Comparable<Object> {
 	 * A positive integer if this Money is more valuiable than the other Money.
 	 */
 	public int compareTo(Object other) {
-		return this.amount - ((Money)other).amount;
+//		System.out.println(this.universalValue() + " <> " + ((Money)other).universalValue());
+		return this.universalValue() - ((Money)other).universalValue();
+//		return this.amount - ((Money)other).amount;
+	}
+	
+	@Override // Force the compiler to check I'm really overriding something
+	public boolean equals(Object object2) {
+	    return object2 instanceof Money 
+	    		&& this.currency.equals(((Money)object2).getCurrency())
+	    		&& this.amount == ((Money)object2).getAmount();
 	}
 }

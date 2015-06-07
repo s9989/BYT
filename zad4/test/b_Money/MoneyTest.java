@@ -27,56 +27,62 @@ public class MoneyTest {
 	@Test
 	public void testGetAmount() {
 	  String message = "Ammounts should be equal";
-	  assertEquals(message, 10000, SEK100);
-	  assertEquals(message, 1000, EUR10);
-	  assertEquals(message, 20000, SEK200);
-	  assertEquals(message, 2000, EUR20);
-	  assertEquals(message, 0, SEK0);
-	  assertEquals(message, 0, EUR0);
+	  assertEquals(message, (Integer)10000, SEK100.getAmount());
+	  assertEquals(message, (Integer)1000, EUR10.getAmount());
+	  assertEquals(message, (Integer)20000, SEK200.getAmount());
+	  assertEquals(message, (Integer)2000, EUR20.getAmount());
+	  assertEquals(message, (Integer)0, SEK0.getAmount());
+	  assertEquals(message, (Integer)0, EUR0.getAmount());
 	}
 
 	@Test
 	public void testGetCurrency() {
-		fail("Write test case here");
+		assertEquals(SEK100.getCurrency(), SEK);
+		assertEquals(EUR10.getCurrency(), EUR);
+		assertNotEquals(EUR10.getCurrency(), DKK);
+		
 	}
 
 	@Test
 	public void testToString() {
-		fail("Write test case here");
+		assertEquals(EUR10.toString(), "1000 EUR"); 
+		assertEquals(SEK200.toString(), "20000 SEK"); 
 	}
 
 	@Test
 	public void testGlobalValue() {
-		fail("Write test case here");
+		assertEquals(EUR10.universalValue(), (Integer)1500);
+		assertEquals(EUR20.universalValue(), (Integer)3000);
 	}
 
 	@Test
 	public void testEqualsMoney() {
-		fail("Write test case here");
+		assertEquals(SEK100, new Money(10000, SEK));
 	}
 
 	@Test
 	public void testAdd() {
-		fail("Write test case here");
+		assertEquals(EUR0.add(new Money(100, EUR)), new Money(100, EUR));
 	}
 
 	@Test
 	public void testSub() {
-		fail("Write test case here");
+		assertEquals(SEK100.sub(new Money(10000, SEK)), new Money(0, SEK));
 	}
 
 	@Test
 	public void testIsZero() {
-		fail("Write test case here");
+		assertTrue(SEK0.isZero());
 	}
 
 	@Test
 	public void testNegate() {
-		fail("Write test case here");
+		assertEquals(SEKn100.negate(), SEK100);
 	}
 
 	@Test
 	public void testCompareTo() {
-		fail("Write test case here");
+		assertNotEquals(SEK100, EUR10);
+		assertEquals(SEK100, SEK100);
 	}
 }
